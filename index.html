@@ -1,0 +1,23 @@
+<html>
+<head>
+    <script>
+        if(window.Worker) {
+            var opustowavWorker = new Worker('opustowavworker.js');
+            opustowavWorker.onmessage = function(message) {
+                if(message.data.status==="done") {                
+                    document.getElementById("player").src = message.data.result;
+                    document.getElementById("player").style.display="block";                    
+                } else if(message.data.status==="message") {
+                    document.getElementById("message").innerHTML = message.data.result;
+                    console.log(message.data.result);
+                }
+            };             
+        }
+    </script>
+</head>
+<body>
+    <p id="message">Waiting for converting to wav (see console for more info)</p>
+    <audio id="player" controls style="display: none";>
+    </audio>
+</body>
+</html>
